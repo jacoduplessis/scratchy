@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='scratchy',
+    name='django-scratchy',
     author='Jaco du Plessis',
     author_email='jaco@jacoduplessis.co.za',
     description='Manage and run Scrapy spiders in Django',
