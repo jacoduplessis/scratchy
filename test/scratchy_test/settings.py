@@ -26,13 +26,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.messages',
+    'django.contrib.sessions',
+    'django.contrib.staticfiles',
     'scratchy',
 ]
 
@@ -110,7 +110,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-
 STATIC_URL = '/static/'
+
+
+REDIS_URL = os.environ.get("REDIS_URL", 'redis://127.0.0.1:6379/6')
+
+CELERY_BROKER_URL = REDIS_URL
+CELERY_WORKER_MAX_TASKS_PER_CHILD = 1
