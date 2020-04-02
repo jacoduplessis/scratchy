@@ -67,6 +67,10 @@ class Execution(models.Model):
     log = models.TextField(blank=True)
 
     @property
+    def responses(self):
+        return self.stats.get('response_received_count', 0)
+
+    @property
     def finish_reason(self):
         return self.stats.get('finish_reason', '---')
 
