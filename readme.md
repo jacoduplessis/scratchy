@@ -6,12 +6,19 @@ The glue between Django, Scrapy and Celery.
 
 See test project for simple usage.
 
+## Advice
+
+- don't link to item model: process as you wish, then mark as processed
+- processed items should be deleted on a periodic basis
+- suggest running separate celery worker with task routing and `--max-tasks-per-child 1`
+
 ## Notes
 
 - requires postgres for JSON column
+- requires pandas + openpyxl for exporting to excel / sqlite
 - tested with scrapy > 2
 - items must be JSON serializable
-- celery worker must restart after running a spider (CELERY_WORKER_MAX_TASKS_PER_CHILD=1)
+- celery worker must restart after running a crawler process (CELERY_WORKER_MAX_TASKS_PER_CHILD=1)
 
 ## TODO
 

@@ -7,12 +7,14 @@ setup(
     description='Manage and run Scrapy spiders in Django',
     url='https://github.com/jacoduplessis/scratchy',
     keywords='django scrapy celery',
-    version='0.1.1',
+    version='0.2.0',
     packages=find_packages(),
     install_requires=[
         'django',
         'celery',
         'scrapy',
+        'pandas',
+        'openpyxl',
     ],
     classifiers=[
         'License :: OSI Approved :: MIT License',

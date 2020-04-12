@@ -1,34 +1,11 @@
-from django.db import models
+import pandas as pd
 from django.contrib.postgres.fields import JSONField
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db import models
 from django.template.defaultfilters import filesizeformat
-import logging
 
 
 class Spider(models.Model):
-    """
-    CRITICAL = 50
-FATAL = CRITICAL
-ERROR = 40
-WARNING = 30
-WARN = WARNING
-INFO = 20
-DEBUG = 10
-NOTSET = 0
-
-
-_nameToLevel = {
-    'CRITICAL': CRITICAL,
-    'FATAL': FATAL,
-    'ERROR': ERROR,
-    'WARN': WARNING,
-    'WARNING': WARNING,
-    'INFO': INFO,
-    'DEBUG': DEBUG,
-    'NOTSET': NOTSET,
-}
-    """
-
     CRITICAL = 'CRITICAL'
     ERROR = 'ERROR'
     WARNING = 'WARNING'
@@ -83,9 +60,23 @@ class Execution(models.Model):
     def seconds(self):
         return int(self.stats.get('elapsed_time_seconds', 0))
 
+    def items_as_df(self, stringify_datetime=False) -> pd.DataFrame:
+        items = Item.objects.filter(execution=self)
+
+        records = []
+
+        for item in items:
+            record = {
+                **item.data,
+                'time_created': item.time_created if not stringify_datetime else item.time_created.isoformat()
+            }
+            records.append(record)
+
+        return pd.DataFrame.from_records(records)
+
 
 class Item(models.Model):
-    time_created = models.DateTimeField(auto_now_add=True)
+    time_created = models.DateTimeField(auto_now_add=True, db_index=True)
     spider = models.ForeignKey(Spider, on_delete=models.CASCADE)
     execution = models.ForeignKey(Execution, null=True, on_delete=models.SET_NULL)
     data = JSONField(default=dict, blank=True, encoder=DjangoJSONEncoder)
