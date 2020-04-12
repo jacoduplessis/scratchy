@@ -7,7 +7,7 @@ setup(
     description='Manage and run Scrapy spiders in Django',
     url='https://github.com/jacoduplessis/scratchy',
     keywords='django scrapy celery',
-    version='0.2.0',
+    version='0.2.1',
     packages=find_packages(),
     install_requires=[
         'django',
