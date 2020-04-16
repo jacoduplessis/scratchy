@@ -62,6 +62,16 @@ class SpiderAdmin(admin.ModelAdmin):
             run_spider.delay(obj.id)
         self.message_user(request, f'{len(qs)} spiders scheduled for execution')
 
+    def set_active(self, request, qs):
+        qs.update(active=True)
+        n = qs.count()
+        self.message_user(request, f'{n} spiders set as active')
+
+    def set_inactive(self, request, qs):
+        qs.update(active=False)
+        n = qs.count()
+        self.message_user(request, f'{n} spiders set as inactive')
+
     list_display = [
         'module',
         'id',
@@ -78,6 +88,8 @@ class SpiderAdmin(admin.ModelAdmin):
 
     actions = [
         'schedule_for_execution',
+        'set_active',
+        'set_inactive',
     ]
 
     inlines = [

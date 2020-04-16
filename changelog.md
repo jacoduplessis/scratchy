@@ -1,3 +1,7 @@
+0.2.2 2020-04-16
+
+- Add admin actions to set active/inactive state
+
 0.2.1 2020-04-12
 
 - Add migration to create index on time_created field
