@@ -22,6 +22,8 @@ See test project for simple usage.
 
 ## TODO
 
+- admin screen to test scraper agains single URL
+- fix SQLite export when data contains list (pandas to_sql)
 - documentation
 - scraper collections / projects
 - add configurable settings globally / per project
