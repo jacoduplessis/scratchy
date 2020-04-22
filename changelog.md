@@ -1,3 +1,7 @@
+0.2.3 2020-04-21
+
+- Avoid stopping Twisted reactor after scraping
+
 0.2.2 2020-04-16
 
 - Add admin actions to set active/inactive state
