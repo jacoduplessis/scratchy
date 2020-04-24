@@ -1,3 +1,7 @@
+0.3.0 2020-04-24
+
+- Revert previous change - tasks hang if reactor is not stopped
+
 0.2.3 2020-04-21
 
 - Avoid stopping Twisted reactor after scraping

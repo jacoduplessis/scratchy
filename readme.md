@@ -17,12 +17,13 @@ See test project for simple usage.
 - requires postgres for JSON column
 - requires pandas + openpyxl for exporting to excel / sqlite
 - tested with scrapy > 2
-- items must be JSON serializable
+- items must be JSON serializable (with DjangoJSONEncoder)
+- requires celery workers to restart after every execution - CELERY_WORKER_MAX_TASKS_PER_CHILD = 1
 
 
 ## TODO
 
-- admin screen to test scraper agains single URL
+- admin screen to test scraper against single URL
 - fix SQLite export when data contains list (pandas to_sql)
 - documentation
 - scraper collections / projects
@@ -31,3 +32,4 @@ See test project for simple usage.
 - scheduling
 - timeout for execution
 - add multiple crawlers to a crawler process when possible (times + logs may cross-contaminate)
+- save log periodically during execution

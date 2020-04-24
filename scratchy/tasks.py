@@ -64,7 +64,7 @@ def run_spider(spider_id):
     crawler = Crawler(scrapy_spider_cls, scrapy_settings)
 
     process.crawl(crawler)
-    process.start(stop_after_crawl=False)
+    process.start()
     # blocks here
 
     log_contents = log_capture_string.getvalue()
