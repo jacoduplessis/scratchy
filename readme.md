@@ -6,6 +6,8 @@ The glue between Django, Scrapy and Celery.
 
 See test project for simple usage.
 
+Add any scrapy settings as `SCRATCHY_SPIDERS` in your settings file.
+
 ## Advice
 
 - don't link to item model: process as you wish, then mark as processed
@@ -33,3 +35,6 @@ See test project for simple usage.
 - timeout for execution
 - add multiple crawlers to a crawler process when possible (times + logs may cross-contaminate)
 - save log periodically during execution
+
+## tests
+

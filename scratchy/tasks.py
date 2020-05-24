@@ -1,14 +1,17 @@
+import importlib
+import json
+import logging
+import os
+import tempfile
+from io import StringIO
+
 from celery import shared_task
-from .models import Spider as SpiderModel, Execution, Item
+from django.conf import settings
 from django.utils.timezone import now
 from scrapy.crawler import Crawler, CrawlerProcess
 from scrapy.utils.spider import iter_spider_classes
-import tempfile
-import json
-import importlib
-import os
-from io import StringIO
-import logging
+
+from .models import Spider as SpiderModel, Execution, Item
 
 
 @shared_task
@@ -22,12 +25,11 @@ def run_spider(spider_id):
     spider = SpiderModel.objects.get(id=spider_id)
     execution = Execution.objects.create(spider_id=spider_id, time_started=now())
 
+    user_settings = getattr(settings, 'SCRATCHY_SPIDERS', {})
+
     item_storage = tempfile.NamedTemporaryFile(delete=False)
 
-    scrapy_settings = {
-        'FEED_FORMAT': 'jsonlines',
-        'FEED_EXPORT_ENCODING': 'utf-8',
-        'FEED_URI': item_storage.name,
+    default_settings = {
         'DNS_TIMEOUT': 5,
         'DOWNLOAD_TIMEOUT': 5,
         'AUTOTHROTTLE_ENABLED': True,
@@ -36,7 +38,19 @@ def run_spider(spider_id):
         'AUTOTHROTTLE_TARGET_CONCURRENCY': 1.0,
     }
 
-    scrapy_settings.update(spider.settings)
+    internal_settings = {
+        'FEED_FORMAT': 'jsonlines',
+        'FEED_EXPORT_ENCODING': 'utf-8',
+        'FEED_URI': item_storage.name,
+
+    }
+
+    scrapy_settings = {
+        **default_settings,
+        **user_settings,
+        **spider.settings,
+        **internal_settings,  # last because these must not be overwritten
+    }
 
     scrapy_spider_cls = None
 

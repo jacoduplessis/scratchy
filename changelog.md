@@ -1,3 +1,7 @@
+0.4.0 2020-05-24
+
+- Allow setting global spider options
+
 0.3.0 2020-04-24
 
 - Revert previous change - tasks hang if reactor is not stopped
